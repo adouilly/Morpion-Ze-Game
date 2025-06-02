@@ -24,4 +24,13 @@ Feature :
 4/ Ajout de formes.
 5/ Gérer la condition de victoire.
 6/ Partie suivante ou reset.
-"# Morpion-Ze-Game" 
+
+//
+// Construction du projet MorpionZeGame
+//
+// 1. Architecture JS découpée en étapes :
+//    - Saisie des pseudos (étape 1)
+//    - Choix du nombre de manches (étape 2)
+//    - Plateau de jeu dynamique (étape 3)
+// 2. Utilisation de variables, constantes, tableaux, objets, fonctions, boucles, conditions, manipulation DOM.
+// 3. Rendu dynamique de l'interface via JS natif (aucune surcouche).
