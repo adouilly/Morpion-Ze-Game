@@ -257,8 +257,14 @@ function handleCellClick(e) {
     return;
   }
   if (isBoardFull()) {
-    showPopup('Égalité !');
-    setTimeout(nextRound, 3000);
+    // Match nul : plateau plein sans gagnant
+    if (roundsToWin === 1) {
+      showPopup('Match nul ! Recommencez la manche.');
+      setTimeout(nextRound, 3000);
+    } else {
+      showPopup('Match nul !');
+      setTimeout(nextRound, 3000);
+    }
     gameState = 'waiting';
     return;
   }

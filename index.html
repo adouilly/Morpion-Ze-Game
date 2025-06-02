@@ -15,7 +15,7 @@
     
     <script src="script.js"></script>
     <script>
-      // Effet de particules simple façon particles.js + interaction curseur
+      // Effet de particules façon particles.js + interaction curseur améliorée (utilise mousemove sur window)
       const canvas = document.createElement('canvas');
       canvas.style.position = 'absolute';
       canvas.style.top = 0;
@@ -42,22 +42,35 @@
         particles.push({
           x: Math.random() * w,
           y: Math.random() * h,
+          ox: 0, oy: 0, // position d'origine
           vx: (Math.random() - 0.5) * 0.7,
           vy: (Math.random() - 0.5) * 0.7,
           r: 2 + Math.random() * 2
         });
+        particles[i].ox = particles[i].x;
+        particles[i].oy = particles[i].y;
       }
-      // Interaction curseur
+      // Interaction curseur sur toute la fenêtre
       let mouse = { x: w/2, y: h/2, active: false };
-      canvas.addEventListener('mousemove', e => {
-        const rect = canvas.getBoundingClientRect();
-        mouse.x = e.clientX - rect.left;
-        mouse.y = e.clientY - rect.top;
+      window.addEventListener('mousemove', e => {
+        mouse.x = e.clientX;
+        mouse.y = e.clientY;
         mouse.active = true;
       });
-      canvas.addEventListener('mouseleave', () => { mouse.active = false; });
+      window.addEventListener('mouseleave', () => { mouse.active = false; });
       function draw() {
         ctx.clearRect(0, 0, w, h);
+        // Halo néon autour du curseur
+        if (mouse.active) {
+          const gradient = ctx.createRadialGradient(mouse.x, mouse.y, 0, mouse.x, mouse.y, 80);
+          gradient.addColorStop(0, 'rgba(0,255,100,0.25)');
+          gradient.addColorStop(0.5, 'rgba(0,255,0,0.10)');
+          gradient.addColorStop(1, 'rgba(0,255,0,0)');
+          ctx.beginPath();
+          ctx.arc(mouse.x, mouse.y, 80, 0, 2 * Math.PI);
+          ctx.fillStyle = gradient;
+          ctx.fill();
+        }
         // Lignes entre particules
         for (let i = 0; i < PARTICLE_COUNT; i++) {
           for (let j = i + 1; j < PARTICLE_COUNT; j++) {
@@ -74,15 +87,15 @@
             }
           }
         }
-        // Lignes vers le curseur
+        // Lignes vers le curseur + effet accentué
         if (mouse.active) {
           for (let i = 0; i < PARTICLE_COUNT; i++) {
             const dx = particles[i].x - mouse.x;
             const dy = particles[i].y - mouse.y;
             const dist = Math.sqrt(dx * dx + dy * dy);
             if (dist < 140) {
-              ctx.strokeStyle = 'rgba(0,255,0,' + (1 - dist / 140) * 0.7 + ')';
-              ctx.lineWidth = 1.5;
+              ctx.strokeStyle = 'rgba(0,255,0,' + (1 - dist / 140) * 0.9 + ')';
+              ctx.lineWidth = 2.5 - dist/140*2;
               ctx.beginPath();
               ctx.moveTo(particles[i].x, particles[i].y);
               ctx.lineTo(mouse.x, mouse.y);
@@ -103,8 +116,25 @@
       }
       function animate() {
         for (let i = 0; i < PARTICLE_COUNT; i++) {
+          // Mouvement naturel
           particles[i].x += particles[i].vx;
           particles[i].y += particles[i].vy;
+          // Attraction vers le curseur si proche
+          if (mouse.active) {
+            const dx = mouse.x - particles[i].x;
+            const dy = mouse.y - particles[i].y;
+            const dist = Math.sqrt(dx * dx + dy * dy);
+            if (dist < 100) {
+              particles[i].x += dx * 0.07;
+              particles[i].y += dy * 0.07;
+            }
+          }
+          // Retour progressif à la position d'origine si éloigné du curseur
+          if (!mouse.active || Math.sqrt((particles[i].x - mouse.x) ** 2 + (particles[i].y - mouse.y) ** 2) > 120) {
+            particles[i].x += (particles[i].ox - particles[i].x) * 0.01;
+            particles[i].y += (particles[i].oy - particles[i].y) * 0.01;
+          }
+          // Rebonds bords
           if (particles[i].x < 0 || particles[i].x > w) particles[i].vx *= -1;
           if (particles[i].y < 0 || particles[i].y > h) particles[i].vy *= -1;
         }
