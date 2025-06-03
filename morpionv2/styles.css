@@ -1,0 +1,96 @@
+/* CSS pour le morpion Flexbox */
+
+/* === FLEXBOX POUR LA GRILLE === */
+.game-board {
+    /* Container principal - Flexbox vertical */
+    display: flex;
+    flex-direction: column;
+    gap: 5px;
+    width: 300px;
+    margin: 20px auto;
+    background: #2c3e50;
+    border-radius: 15px;
+    padding: 10px;
+}
+
+.board-row {
+    /* Chaque rangée - Flexbox horizontal */
+    display: flex;
+    gap: 5px;
+}
+
+.cell {
+    /* Cases individuelles */
+    flex: 1; /* Prend tout l'espace disponible */
+    height: 90px;
+    background: white;
+    
+    /* Flexbox pour centrer le contenu */
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    
+    font-size: 2.5em;
+    font-weight: bold;
+    color: #000000;
+    cursor: pointer;
+    border-radius: 10px;
+    transition: all 0.3s ease;
+}
+
+.cell:hover {
+    background: #ecf0f1;
+    transform: translateY(-2px);
+}
+
+.cell.x {
+    color: #23ec09;
+}
+
+.cell.o {
+    color: #db5901;
+}
+
+/* Styles généraux */
+body {
+    font-family: Arial, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    padding: 20px;
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Centrage vertical/horizontal du container */
+.game-container {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 20px;
+    padding: 30px;
+    max-width: 400px;
+    margin: 0 auto;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 70vh;
+}
+
+.game-info {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 1.2em;
+}
+
+.reset-btn {
+    display: block;
+    margin: 20px auto 0;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: #ffffff;
+    border: none;
+    padding: 12px 25px;
+    font-size: 1.1em;
+    border-radius: 25px;
+    cursor: pointer;
+}

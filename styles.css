@@ -212,7 +212,7 @@ button:hover {
 .popup {
   position: absolute;
   left: 50%;
-  top: 10%;
+  top: 50%;
   transform: translate(-50%, 0);
   background: rgba(0,255,0,0.85);
   color: #222;
