@@ -38,7 +38,8 @@ function handleCellClick(event) {
 
     // Marquer la case
     gameBoard[clickedCellIndex] = currentPlayer;
-    clickedCell.textContent = currentPlayer;
+    // Affichage émoticon
+    clickedCell.textContent = currentPlayer === 'X' ? '☀️' : '🌙';
     clickedCell.classList.add(currentPlayer.toLowerCase());
 
     // Vérifier le résultat

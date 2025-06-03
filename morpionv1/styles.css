@@ -51,6 +51,15 @@
     color: #db5901;
 }
 
+.cell.x, .cell.o {
+    /* Couleur du texte désactivée pour les emojis */
+    color: inherit;
+}
+.cell span, .cell {
+    font-size: 2.2em;
+    line-height: 1;
+}
+
 /* Styles généraux */
 body {
     font-family: Arial, sans-serif;
