@@ -1,96 +1,265 @@
-/* CSS pour le morpion Flexbox */
-
-/* === FLEXBOX POUR LA GRILLE === */
+/*
+  styles.css - MorpionZeGame
+  Glassmorphisme, vert fluo, effet RGB sur les contours, fond noir, boutons centrés
+*/
+body, html {
+  min-height: 100vh;
+  margin: 0;
+  font-family: 'Segoe UI', Arial, sans-serif;
+  background: #000;
+  color: #fff;
+  overflow-x: hidden;
+}
+#background {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  background: #000;
+  opacity: 1;
+}
+main#app {
+  position: relative;
+  z-index: 1;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.step {
+  background: rgba(20, 20, 20, 0.7);
+  border-radius: 24px;
+  box-shadow: 0 0 32px 4px rgba(0,255,100,0.18), 0 0 0 3px #00ff00 inset;
+  padding: 2.5rem 2rem;
+  max-width: 420px;
+  width: 100%;
+  margin: 2rem auto;
+  backdrop-filter: blur(10px);
+  border: 2px solid #00ff00;
+  animation: rgb-border 2s linear infinite;
+}
+@keyframes rgb-border {
+  0% { box-shadow: 0 0 16px 2px #00ff00, 0 0 0 3px #00ff00 inset; }
+  33% { box-shadow: 0 0 16px 2px #00fff7, 0 0 0 3px #00fff7 inset; }
+  66% { box-shadow: 0 0 16px 2px #00ffb7, 0 0 0 3px #00ffb7 inset; }
+  100% { box-shadow: 0 0 16px 2px #00ff00, 0 0 0 3px #00ff00 inset; }
+}
+.step-pseudo h1 {
+  text-align: center;
+  font-size: 2.2rem;
+  margin-bottom: 1.5rem;
+  letter-spacing: 2px;
+  text-shadow: 0 0 8px #00ff00, 0 0 2px #fff;
+}
+.player-input {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+.player-input .avatar {
+  width: 48px;
+  height: 48px;
+  border-radius: 50%;
+  border: 2px solid #00ff00;
+  background: #111;
+  box-shadow: 0 0 8px #00ff00;
+}
+input[type="text"] {
+  background: rgba(255,255,255,0.08);
+  border: 1.5px solid #00ff00;
+  border-radius: 8px;
+  color: #fff;
+  padding: 0.5rem 1rem;
+  font-size: 1.1rem;
+  outline: none;
+  transition: border 0.2s;
+}
+input[type="text"]:focus {
+  border: 1.5px solid #fff;
+}
+.step-pseudo form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.step-pseudo button {
+  align-self: center;
+}
+button {
+  background: #111;
+  color: #00ff00;
+  border: 2px solid #00ff00;
+  border-radius: 8px;
+  padding: 0.7rem 1.5rem;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: none;
+  margin-top: 1rem;
+  transition: background 0.2s, color 0.2s, border 0.2s;
+  text-shadow: 0 0 2px #00ff00, 0 0 1px #fff;
+}
+button:hover {
+  background: #222;
+  color: #fff;
+  border: 2px solid #fff;
+}
+.step-rounds h2 {
+  text-align: center;
+  margin-bottom: 1.5rem;
+  font-size: 1.5rem;
+  text-shadow: 0 0 8px #00ff00;
+}
+.step-rounds label {
+  display: block;
+  margin: 0.7rem 0;
+  font-size: 1.1rem;
+  cursor: pointer;
+}
+.players-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 1.5rem;
+  gap: 1.5rem;
+}
+.player {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  min-width: 120px;
+  padding: 1rem 0.5rem;
+  border-radius: 16px;
+  background: rgba(0,255,0,0.08);
+  box-shadow: 0 0 8px #00ff00;
+  border: 1.5px solid #00ff00;
+  transition: box-shadow 0.2s, border 0.2s;
+}
+.player.active {
+  box-shadow: 0 0 24px #fff, 0 0 8px #00ff00;
+  border: 2.5px solid #fff;
+}
+.pseudo {
+  font-size: 1.2rem;
+  margin: 0.5rem 0 0.2rem 0;
+  font-weight: bold;
+  text-shadow: 0 0 4px #00ff00;
+}
+.score {
+  font-size: 1.1rem;
+  margin-top: 0.2rem;
+}
+.scoreboard {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.7rem;
+}
+.scoreboard button {
+  margin: 0;
+  padding: 0.5rem 1.2rem;
+  font-size: 1rem;
+}
+.rounds {
+  font-size: 1rem;
+  color: #00ff00;
+  text-shadow: 0 0 4px #00ff00;
+}
+.game-board-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-top: 1.5rem;
+}
+#start-btn {
+  margin-bottom: 1.2rem;
+}
 .game-board {
-    /* Container principal - Flexbox vertical */
-    display: flex;
+  background: rgba(0,0,0,0.25);
+  border-radius: 18px;
+  box-shadow: 0 0 16px #00ff00;
+  padding: 1.2rem;
+  min-width: 270px;
+  min-height: 270px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.game-board table {
+  border-collapse: collapse;
+  width: 270px;
+  height: 270px;
+}
+.game-board td {
+  width: 90px;
+  height: 90px;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 3.2rem;
+  font-weight: bold;
+  color: #fff;
+  border: 2.5px solid #00ff00;
+  background: rgba(0,255,0,0.07);
+  cursor: pointer;
+  transition: background 0.2s, box-shadow 0.2s;
+  user-select: none;
+}
+.game-board td:hover {
+  background: rgba(0,255,0,0.18);
+  box-shadow: 0 0 12px #00ff00;
+}
+.popup {
+  position: absolute;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, 0);
+  background: rgba(0,255,0,0.85);
+  color: #222;
+  font-size: 1.3rem;
+  font-weight: bold;
+  padding: 1.2rem 2.5rem;
+  border-radius: 18px;
+  box-shadow: 0 0 24px #00ff00, 0 0 8px #fff;
+  z-index: 10;
+  text-align: center;
+  pointer-events: none;
+  opacity: 0.98;
+  animation: popup-appear 0.3s;
+}
+@keyframes popup-appear {
+  from { opacity: 0; transform: translate(-50%, -30px); }
+  to { opacity: 0.98; transform: translate(-50%, 0); }
+}
+@media (max-width: 600px) {
+  .step {
+    padding: 1.2rem 0.5rem;
+    max-width: 98vw;
+  }
+  .players-info {
     flex-direction: column;
-    gap: 5px;
-    width: 300px;
-    margin: 20px auto;
-    background: #2c3e50;
-    border-radius: 15px;
-    padding: 10px;
+    gap: 0.7rem;
+  }
+  .game-board {
+    min-width: 180px;
+    min-height: 180px;
+    padding: 0.5rem;
+  }
+  .game-board table {
+    width: 180px;
+    height: 180px;
+  }
+  .game-board td {
+    width: 60px;
+    height: 60px;
+    font-size: 2rem;
+  }
 }
-
-.board-row {
-    /* Chaque rangée - Flexbox horizontal */
-    display: flex;
-    gap: 5px;
+.step-rounds form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
 }
-
-.cell {
-    /* Cases individuelles */
-    flex: 1; /* Prend tout l'espace disponible */
-    height: 90px;
-    background: white;
-    
-    /* Flexbox pour centrer le contenu */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    
-    font-size: 2.5em;
-    font-weight: bold;
-    color: #000000;
-    cursor: pointer;
-    border-radius: 10px;
-    transition: all 0.3s ease;
-}
-
-.cell:hover {
-    background: #ecf0f1;
-    transform: translateY(-2px);
-}
-
-.cell.x {
-    color: #23ec09;
-}
-
-.cell.o {
-    color: #db5901;
-}
-
-/* Styles généraux */
-body {
-    font-family: Arial, sans-serif;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: white;
-    padding: 20px;
-    min-height: 100vh;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-/* Centrage vertical/horizontal du container */
-.game-container {
-    background: rgba(255, 255, 255, 0.1);
-    border-radius: 20px;
-    padding: 30px;
-    max-width: 400px;
-    margin: 0 auto;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    min-height: 70vh;
-}
-
-.game-info {
-    text-align: center;
-    margin-bottom: 20px;
-    font-size: 1.2em;
-}
-
-.reset-btn {
-    display: block;
-    margin: 20px auto 0;
-    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-    color: #ffffff;
-    border: none;
-    padding: 12px 25px;
-    font-size: 1.1em;
-    border-radius: 25px;
-    cursor: pointer;
+.step-rounds button {
+  align-self: center;
 }
