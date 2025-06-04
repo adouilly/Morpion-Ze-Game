@@ -28,8 +28,8 @@ function initializeGame() {
 
 // Gestion du clic sur une case
 function handleCellClick(event) {
-    const clickedCell = event.target;
-    const clickedCellIndex = parseInt(clickedCell.getAttribute('data-index'));
+    const clickedCell = event.target; 
+       const clickedCellIndex = parseInt(clickedCell.getAttribute('data-index'));
 
     // Vérifier si la case est déjà remplie ou si le jeu est fini
     if (gameBoard[clickedCellIndex] !== '' || !gameActive) {
